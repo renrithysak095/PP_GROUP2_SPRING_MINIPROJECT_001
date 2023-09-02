@@ -5,28 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "bookmarks")
-public class Bookmark {
+@Table(name = "comments")
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "bookmark_id")
+    @Column(name = "comment_id")
     private UUID id;
+
+    @Column(name = "comment_caption")
+    private String caption;
 
     @ManyToOne
     @JoinColumn(name = "article_id")
     private Article article;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-
 }
