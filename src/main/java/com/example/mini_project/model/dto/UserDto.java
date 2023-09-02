@@ -18,7 +18,5 @@ public class UserDto {
     private UUID id;
     private String name;
     private Role role;
-    private List<Bookmark> bookmarks;
-
 
 }
