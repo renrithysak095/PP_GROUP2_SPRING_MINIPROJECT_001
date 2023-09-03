@@ -23,11 +23,9 @@ import java.util.List;
 public class FileStorageRestController {
 
     private final FileService fileService;
-    private final EmailService emailService;
 
-    public FileStorageRestController(FileService fileService, EmailService emailService) {
+    public FileStorageRestController(FileService fileService) {
         this.fileService = fileService;
-        this.emailService = emailService;
     }
 
 
@@ -49,14 +47,13 @@ public class FileStorageRestController {
 
     @GetMapping("/download/{fileName}")
     @Operation(summary = "download file")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws MessagingException {
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
         byte[] fileContent = fileService.getFileContent(fileName);
         ByteArrayResource resource = new ByteArrayResource(fileContent);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         headers.setContentType(mediaType);
-        emailService.sendMailMessage();
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(fileContent.length)
