@@ -4,6 +4,7 @@ import com.example.mini_project.model.dto.ArticleDto;
 import com.example.mini_project.model.dto.CommentDto;
 import com.example.mini_project.model.request.ArticleRequest;
 import com.example.mini_project.model.request.CommentRequest;
+import com.example.mini_project.model.response.PageResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,7 @@ public interface ArticleService {
 
     ArticleDto createArticle(ArticleRequest articleRequest);
 
-    List<ArticleDto> getAllArticles(Integer pageNo, Integer pageSize);
+    PageResponse<List<ArticleDto>> getAllArticles(Integer pageNo, Integer pageSize);
 
     CommentDto postComment(CommentRequest commentRequest, UUID id);
 
@@ -24,5 +25,5 @@ public interface ArticleService {
 
     ArticleDto updateArticle(ArticleRequest articleRequest, UUID id);
 
-    List<ArticleDto> getAllArticlesIsPublished(Integer pageNo, Integer pageSize);
+    PageResponse<List<ArticleDto>> getAllArticlesIsPublished(Integer pageNo, Integer pageSize);
 }

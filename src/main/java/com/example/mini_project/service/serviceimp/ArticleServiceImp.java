@@ -10,6 +10,7 @@ import com.example.mini_project.model.dto.CommentDto;
 import com.example.mini_project.model.request.ArticleRequest;
 import com.example.mini_project.model.request.CategoryRequest;
 import com.example.mini_project.model.request.CommentRequest;
+import com.example.mini_project.model.response.PageResponse;
 import com.example.mini_project.repository.ArticleRepository;
 import com.example.mini_project.repository.CategoryRepository;
 import com.example.mini_project.repository.CommentRepository;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,10 +48,18 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> getAllArticles(Integer pageNo, Integer pageSize) {
+    public PageResponse<List<ArticleDto>> getAllArticles(Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<ArticleDto> pageResult = articleRepository.findAll(pageable).map(Article::toDto);
-        return pageResult.getContent();
+        return PageResponse.<List<ArticleDto>>builder()
+                .message("successfully fetched article")
+                .payload(pageResult.getContent())
+                .status(HttpStatus.OK)
+                .page(pageNo)
+                .size(pageSize)
+                .totalElement(pageResult.getTotalElements())
+                .totalPages(pageResult.getTotalPages())
+                .build();
     }
 
     @Override
@@ -88,9 +98,17 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> getAllArticlesIsPublished(Integer pageNo, Integer pageSize) {
+    public PageResponse<List<ArticleDto>> getAllArticlesIsPublished(Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<ArticleDto> pageResult = articleRepository.findAllByPublished(pageable, false).map(Article::toDto);
-        return pageResult.getContent();
+        return PageResponse.<List<ArticleDto>>builder()
+                .message("successfully fetched article")
+                .payload(pageResult.getContent())
+                .status(HttpStatus.OK)
+                .page(pageNo)
+                .size(pageSize)
+                .totalElement(pageResult.getTotalElements())
+                .totalPages(pageResult.getTotalPages())
+                .build();
     }
 }

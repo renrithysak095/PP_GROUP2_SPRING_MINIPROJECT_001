@@ -33,13 +33,8 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllArticles(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
-        ApiResponse<List<ArticleDto>> response = ApiResponse.<List<ArticleDto>>builder()
-                .message("successfully fetched article")
-                .payload(articleService.getAllArticles(pageNo, pageSize))
-                .status(HttpStatus.OK)
-                .build();
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<?> getAllArticles(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
+        return ResponseEntity.ok().body(articleService.getAllArticles(pageNo, pageSize));
     }
 
     @GetMapping("{id}")
@@ -94,12 +89,7 @@ public class ArticleController {
     }
 
     @GetMapping("isPublished")
-    public ResponseEntity<?> getAllArticlesIsPublished(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
-        ApiResponse<List<ArticleDto>> response = ApiResponse.<List<ArticleDto>>builder()
-                .message("successfully fetched article")
-                .payload(articleService.getAllArticlesIsPublished(pageNo, pageSize))
-                .status(HttpStatus.OK)
-                .build();
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<?> getAllArticlesIsPublished(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
+        return ResponseEntity.ok().body(articleService.getAllArticlesIsPublished(pageNo, pageSize));
     }
 }
