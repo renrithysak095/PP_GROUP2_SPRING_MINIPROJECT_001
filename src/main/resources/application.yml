@@ -15,6 +15,25 @@ spring:
       multipart:
         max-file-size: 50MB
         max-request-size: 100MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable : true
+            required : true
+          from: contact@email.com
+      from:
+        name: Sak
+
+
 server:
   port: 8080
 

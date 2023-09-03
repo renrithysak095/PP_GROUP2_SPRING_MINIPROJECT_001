@@ -1,5 +1,7 @@
 package com.example.mini_project.controller;
 
+import com.example.mini_project.service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -21,9 +23,11 @@ import java.util.List;
 public class FileStorageRestController {
 
     private final FileService fileService;
+    private final EmailService emailService;
 
-    public FileStorageRestController(FileService fileService) {
+    public FileStorageRestController(FileService fileService, EmailService emailService) {
         this.fileService = fileService;
+        this.emailService = emailService;
     }
 
 
@@ -45,13 +49,14 @@ public class FileStorageRestController {
 
     @GetMapping("/download/{fileName}")
     @Operation(summary = "download file")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws MessagingException {
         byte[] fileContent = fileService.getFileContent(fileName);
         ByteArrayResource resource = new ByteArrayResource(fileContent);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         headers.setContentType(mediaType);
+        emailService.sendMailMessage();
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(fileContent.length)
