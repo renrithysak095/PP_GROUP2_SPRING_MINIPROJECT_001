@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("api/v1/file")
 @Tag(name = "Files")
 public class FileStorageRestController {
 
@@ -46,6 +46,7 @@ public class FileStorageRestController {
     }
 
     @GetMapping("/download/{fileName}")
+    @Operation(summary = "download file")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
         byte[] fileContent = fileService.getFileContent(fileName);
         ByteArrayResource resource = new ByteArrayResource(fileContent);
