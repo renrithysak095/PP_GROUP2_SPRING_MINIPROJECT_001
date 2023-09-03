@@ -1,5 +1,6 @@
 package com.example.mini_project.service.serviceimp;
 
+import com.example.mini_project.exception.NotFoundExceptionClass;
 import com.example.mini_project.model.Category;
 import com.example.mini_project.model.dto.CategoryDto;
 import com.example.mini_project.model.request.CategoryRequest;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,18 +34,19 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public CategoryDto getCategoryById(UUID id) {
-        return categoryRepository.findById(id).orElseThrow().toDto();
+        return categoryRepository.findById(id).orElseThrow(()->new NotFoundExceptionClass("Category not found!")).toDto();
     }
 
     @Override
     public CategoryDto updateCategory(UUID id, CategoryRequest categoryRequest) {
-        Category category = categoryRepository.findById(id).orElseThrow();
+        Category category = categoryRepository.findById(id).orElseThrow(()->new NotFoundExceptionClass("Category not found!"));
         return categoryRepository.save(categoryRequest.toEntity(id,category.getName())).toDto();
     }
 
     @Override
     public void deleteCategory(UUID id) {
-
+        Category category = categoryRepository.findById(id).orElseThrow(()-> new NotFoundExceptionClass("Category not found!"));
+        categoryRepository.deleteById(id);
     }
 
 }
