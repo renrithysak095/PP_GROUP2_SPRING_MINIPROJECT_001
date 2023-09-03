@@ -1,5 +1,6 @@
 package com.example.mini_project.model;
 
+import com.example.mini_project.model.dto.CommentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,4 +26,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "article_id")
     private Article article;
+
+    public CommentDto toDto(){
+        return new CommentDto(this.id, this.caption);
+    }
 }

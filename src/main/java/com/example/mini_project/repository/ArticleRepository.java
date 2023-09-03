@@ -1,10 +1,16 @@
 package com.example.mini_project.repository;
 
 import com.example.mini_project.model.Article;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Range;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ArticleRepository extends JpaRepository<Article,Long> {
+import java.util.List;
+import java.util.UUID;
 
+@Repository
+public interface ArticleRepository extends JpaRepository<Article, UUID> {
+    Page<Article> findAllByPublished(Pageable pageable, boolean b);
 }

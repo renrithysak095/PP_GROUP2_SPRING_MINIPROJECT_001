@@ -1,10 +1,12 @@
 package com.example.mini_project.model;
 
+import com.example.mini_project.model.dto.CategoryDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -22,5 +24,10 @@ public class Category {
     @Column(name = "category_name")
     private String name;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+    private List<Article> articles;
 
+    public CategoryDto toDto() {
+        return new CategoryDto(this.id, this.name);
+    }
 }

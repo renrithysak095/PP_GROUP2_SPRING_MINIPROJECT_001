@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Mini Project", version = "1.0", description = "Group 2"))
-@RequestMapping("/api/v1")
 public class MiniProjectApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MiniProjectApplication.class, args);
     }

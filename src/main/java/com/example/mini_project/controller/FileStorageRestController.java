@@ -29,7 +29,6 @@ public class FileStorageRestController {
     }
 
 
-
     @PostMapping(value = "/file-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "upload file")
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -47,7 +46,7 @@ public class FileStorageRestController {
     }
 
     @GetMapping("/download/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws IOException {
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName){
         byte[] fileContent = fileService.getFileContent(fileName);
         ByteArrayResource resource = new ByteArrayResource(fileContent);
         HttpHeaders headers = new HttpHeaders();
