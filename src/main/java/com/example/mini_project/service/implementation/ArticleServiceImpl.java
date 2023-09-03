@@ -1,4 +1,4 @@
-package com.example.mini_project.service.serviceimp;
+package com.example.mini_project.service.implementation;
 
 import com.example.mini_project.exception.NotFoundExceptionClass;
 import com.example.mini_project.model.Article;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ArticleServiceImp implements ArticleService {
+public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;

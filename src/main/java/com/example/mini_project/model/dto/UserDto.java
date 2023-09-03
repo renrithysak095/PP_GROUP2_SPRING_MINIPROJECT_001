@@ -1,9 +1,6 @@
 package com.example.mini_project.model.dto;
 
-import com.example.mini_project.enumeration.Role;
-import com.example.mini_project.model.Bookmark;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
