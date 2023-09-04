@@ -34,5 +34,8 @@ spring:
         name: Sak
 server:
   port: 8080
+file:
+  uploadPath: src/main/resources/storage/
+
 
 
