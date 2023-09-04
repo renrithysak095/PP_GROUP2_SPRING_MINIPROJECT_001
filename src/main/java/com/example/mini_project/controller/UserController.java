@@ -1,20 +1,14 @@
 package com.example.mini_project.controller;
-
-import com.example.mini_project.model.User;
-import com.example.mini_project.model.dto.ArticleDto;
 import com.example.mini_project.model.dto.UserDto;
 import com.example.mini_project.model.request.UserRequest;
 import com.example.mini_project.model.response.ApiResponse;
 import com.example.mini_project.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.webjars.NotFoundException;
-
-import java.util.List;
 import java.util.UUID;
 
 @RestController
