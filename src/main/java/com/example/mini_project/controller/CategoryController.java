@@ -1,12 +1,7 @@
 package com.example.mini_project.controller;
 
-import com.example.mini_project.model.Category;
-import com.example.mini_project.model.dto.ArticleDto;
 import com.example.mini_project.model.dto.CategoryDto;
-import com.example.mini_project.model.dto.CommentDto;
-import com.example.mini_project.model.request.ArticleRequest;
 import com.example.mini_project.model.request.CategoryRequest;
-import com.example.mini_project.model.request.CommentRequest;
 import com.example.mini_project.model.response.ApiResponse;
 import com.example.mini_project.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,8 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -53,7 +46,7 @@ public class CategoryController {
     @DeleteMapping("{id}")
     public  ResponseEntity<?> deleteCategory(@PathVariable UUID id){
         categoryService.deleteCategory(id);
-        ApiResponse<ArticleDto> response = ApiResponse.<ArticleDto>builder()
+        ApiResponse<CategoryDto> response = ApiResponse.<CategoryDto>builder()
                 .message("deleted successfully")
                 .payload(null)
                 .status(HttpStatus.OK)
