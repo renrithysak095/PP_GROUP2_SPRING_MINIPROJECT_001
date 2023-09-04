@@ -6,9 +6,9 @@ import com.example.mini_project.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class ArticleRequest {
         private String title;
         private String description;
-        private List<CategoryRequest> categories;
+        private Set<CategoryRequest> categories;
         private UUID userId;
         private Boolean published = false;
 

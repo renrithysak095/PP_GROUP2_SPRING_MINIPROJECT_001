@@ -21,7 +21,7 @@ public class Category {
     @Column(name = "category_id")
     private UUID id;
 
-    @Column(name = "category_name")
+    @Column(name = "category_name", unique = true)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")

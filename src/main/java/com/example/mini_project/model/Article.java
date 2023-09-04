@@ -60,6 +60,6 @@ public class Article {
     }
 
     public ArticleDto toDto(){
-        return new ArticleDto(this.id, this.description, this.published, this.user.toDto(), this.comments.stream().map(Comment::toDto).collect(Collectors.toList()), this.categories.stream().map(Category::toDto).collect(Collectors.toList()));
+        return new ArticleDto(this.id, this.title, this.description, this.published, this.user.toDto(), this.comments.stream().map(Comment::toDto).collect(Collectors.toList()), this.categories.stream().map(Category::toDto).collect(Collectors.toList()));
     }
 }

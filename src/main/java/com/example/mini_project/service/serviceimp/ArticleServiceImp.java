@@ -1,6 +1,7 @@
 package com.example.mini_project.service.serviceimp;
 
 import com.example.mini_project.exception.NotFoundExceptionClass;
+import com.example.mini_project.exception.NullExceptionClass;
 import com.example.mini_project.model.Article;
 import com.example.mini_project.model.Category;
 import com.example.mini_project.model.Comment;
@@ -39,12 +40,20 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public ApiResponse<ArticleDto> createArticle(ArticleRequest articleRequest) {
-        User user = userRepository.findById(articleRequest.getUserId()).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
+        if (articleRequest.getTitle() == null || articleRequest.getTitle().isBlank()){
+            throw new NullExceptionClass("title can not be blank or empty", "Article");
+        } else if (articleRequest.getDescription() == null || articleRequest.getDescription().isBlank()) {
+            throw new NullExceptionClass("description can not be blank or empty", "Article");
+        }
         List<Category> categories = new ArrayList<>();
         for (CategoryRequest categoryRequest : articleRequest.getCategories()){
+            if(categoryRequest.getName() == null || categoryRequest.getName().isBlank()){
+                throw new NullExceptionClass("category name can not be blank or empty", "Article");
+            }
             Category category = categoryRepository.findByName(categoryRequest.getName()).orElseThrow(() -> new NotFoundExceptionClass("Category not found"));
             categories.add(category);
         }
+        User user = userRepository.findById(articleRequest.getUserId()).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
         return ApiResponse.<ArticleDto>builder()
                 .message("successfully create article")
                 .payload(articleRepository.save(articleRequest.toEntity(user, categories)).toDto())
@@ -54,7 +63,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public PageResponse<List<ArticleDto>> getAllArticles(Integer pageNo, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<ArticleDto> pageResult = articleRepository.findAll(pageable).map(Article::toDto);
         return PageResponse.<List<ArticleDto>>builder()
                 .message("successfully fetched article")
@@ -69,6 +78,9 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public ApiResponse<CommentDto> postComment(CommentRequest commentRequest, UUID id) {
+        if(commentRequest.getCaption() == null || commentRequest.getCaption().isBlank()){
+            throw new NullExceptionClass("caption can not be blank or empty", "Article");
+        }
         Article article = articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
         return  ApiResponse.<CommentDto>builder()
                 .message("comment with article id: " + id)
@@ -109,10 +121,18 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public ApiResponse<ArticleDto> updateArticle(ArticleRequest articleRequest, UUID id) {
+        if (articleRequest.getTitle() == null || articleRequest.getTitle().isBlank()){
+            throw new NullExceptionClass("title can not be blank or empty", "Article");
+        } else if (articleRequest.getDescription() == null || articleRequest.getDescription().isBlank()) {
+            throw new NullExceptionClass("description can not be blank or empty", "Article");
+        }
         Article article = articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
         User user = userRepository.findById(articleRequest.getUserId()).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
         List<Category> categories = new ArrayList<>();
         for (CategoryRequest categoryRequest : articleRequest.getCategories()){
+            if(categoryRequest.getName() == null || categoryRequest.getName().isBlank()){
+                throw new NullExceptionClass("category name can not be blank or empty", "Article");
+            }
             Category category = categoryRepository.findByName(categoryRequest.getName()).orElseThrow(() -> new NotFoundExceptionClass("Category not found"));
             categories.add(category);
         }
@@ -125,7 +145,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public PageResponse<List<ArticleDto>> getAllArticlesIsPublished(Integer pageNo, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<ArticleDto> pageResult = articleRepository.findAllByPublished(pageable, false).map(Article::toDto);
         return PageResponse.<List<ArticleDto>>builder()
                 .message("successfully fetched article")

@@ -56,7 +56,7 @@ public class BookmarkServiceImp implements BookmarkService {
     @Override
     public PageResponse<List<ArticleDto>> getBookmarkArticle(UUID id, Integer pageNo, Integer pageSize) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<BookmarkDto> pageResult = bookmarkRepository.findAllByUserId(pageable, user.getId()).map(Bookmark::toDto);
         List<ArticleDto> articles = new ArrayList<>();
         for(BookmarkDto bookmarkDto : pageResult){
