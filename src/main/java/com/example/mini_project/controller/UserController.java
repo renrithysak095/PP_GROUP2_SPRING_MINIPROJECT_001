@@ -12,18 +12,15 @@ import org.webjars.NotFoundException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/v1/users")
 @Tag(name = "Users")
 public class UserController {
 
-
 	private final UserService userService;
-
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-
-	@PostMapping("/users")
+	@PostMapping("")
 	public ApiResponse<?> addNewUser(@RequestBody @Valid UserRequest userRequest) {
 		if (userRequest == null || userRequest.getName() == null || userRequest.getName().isBlank()) {
 			throw new IllegalArgumentException("User name cannot be blank");
@@ -37,7 +34,7 @@ public class UserController {
 				.build();
 	}
 
-	@GetMapping("/allUsers")
+	@GetMapping("")
 	public ResponseEntity<?> getAllUser(
 			@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "5") Integer pageSize
@@ -73,9 +70,8 @@ public class UserController {
 		return ResponseEntity.ok().body(response);	}
 
 
-	@PutMapping("/{uuid}")
-
-	public ApiResponse<?>udateUser(@RequestBody UserRequest userRequest, @PathVariable("uuid") UUID uuid){
+	@PutMapping("/{id}")
+	public ApiResponse<?>updateUser(@RequestBody UserRequest userRequest, @PathVariable("id") UUID uuid){
 		if (userRequest == null || userRequest.getName() == null || userRequest.getName().isBlank()) {
 			throw new IllegalArgumentException("User name cannot be blank");
 		}
