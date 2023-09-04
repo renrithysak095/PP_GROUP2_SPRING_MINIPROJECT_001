@@ -26,13 +26,23 @@ public class User {
     private String name;
 
     @Column(name = "user_role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Bookmark> bookmarks;
 
-    public UserDto toDto(){
-        return new UserDto(this.id, this.name, this.role);
-    }
 
+    public User(UUID id, String name, Role role){
+                this.id=id;
+                this.name=name;
+                this.role=role;
+    }
+    public UserDto toDto() {
+            return  new UserDto(this.id,this.name,this.role);
+    }
 }
+
+
+
+

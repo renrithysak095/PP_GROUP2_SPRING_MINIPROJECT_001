@@ -1,12 +1,22 @@
 package com.example.mini_project.service;
+
 import com.example.mini_project.model.dto.UserDto;
+import com.example.mini_project.model.request.BookmarkRequest;
+import com.example.mini_project.model.request.UserRequest;
 import com.example.mini_project.model.response.PageResponse;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
-@Service
 public interface UserService {
-    PageResponse<List<UserDto>> getAllArticles(Integer page, Integer size);
 
+	UserDto addUser(UserRequest userRequest);
+
+	PageResponse<List<UserDto>> getAllUsers(Integer pageNo, Integer pageSize);
+
+	UserDto getUserById(UUID uuid);
+
+	void deleteUserById(UUID uuid);
+
+	UserDto updateUserById(UserRequest userRequest, UUID uuid);
 }
