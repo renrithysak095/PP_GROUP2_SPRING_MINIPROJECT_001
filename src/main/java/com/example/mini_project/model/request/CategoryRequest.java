@@ -14,12 +14,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequest {
-    private String name;
 
+    private String name;
     public Category toEntity(String name){
         return new Category(null, this.name);
     }
-
     public Category toEntity(UUID id,String name){
         return new Category(id, this.name);
     }

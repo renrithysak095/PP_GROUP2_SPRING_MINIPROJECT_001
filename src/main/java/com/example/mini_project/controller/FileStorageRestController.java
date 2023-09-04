@@ -28,7 +28,6 @@ public class FileStorageRestController {
         this.fileService = fileService;
     }
 
-
     @PostMapping(value = "/file-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "upload file")
     @ExceptionHandler(MaxUploadSizeExceededException.class)

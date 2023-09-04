@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleRequest {
+
         private String title;
         private String description;
         private List<CategoryRequest> categories;
