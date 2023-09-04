@@ -1,4 +1,4 @@
-package com.example.mini_project.service.serviceImpl;
+package com.example.mini_project.service.implementation;
 
 import com.example.mini_project.exception.NotFoundExceptionClass;
 import com.example.mini_project.model.User;
