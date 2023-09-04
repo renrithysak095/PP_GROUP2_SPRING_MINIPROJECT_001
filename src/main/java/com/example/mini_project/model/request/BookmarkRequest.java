@@ -13,10 +13,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookmarkRequest {
-
     private UUID articleId;
 
     public Bookmark toEntity(Article article, User user){
-        return new Bookmark(null, article, user);
+        return new Bookmark(null,article,user);
     }
+
+
 }

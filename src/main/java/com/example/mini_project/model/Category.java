@@ -1,6 +1,5 @@
 package com.example.mini_project.model;
 
-import com.example.mini_project.model.dto.ArticleDto;
 import com.example.mini_project.model.dto.CategoryDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -20,10 +18,11 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+
     @Column(name = "category_id")
     private UUID id;
 
-    @Column(name = "category_name")
+    @Column(name = "category_name", unique = true)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")

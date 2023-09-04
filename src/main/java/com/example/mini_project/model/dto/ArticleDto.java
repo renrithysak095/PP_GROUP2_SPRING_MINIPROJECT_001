@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ArticleDto {
     private UUID id;
+    private String title;
     private String description;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserDto user;
@@ -25,8 +26,9 @@ public class ArticleDto {
     private List<BookmarkDto> bookmarks;
     private Boolean published;
 
-    public ArticleDto(UUID id, String description, Boolean published, UserDto user, List<CommentDto> comments, List<CategoryDto> categories) {
+    public ArticleDto(UUID id, String title, String description, Boolean published, UserDto user, List<CommentDto> comments, List<CategoryDto> categories) {
         this.id = id;
+        this.title = title;
         this.description = description;
         this.published = published;
         this.user = user;

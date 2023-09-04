@@ -1,5 +1,6 @@
 package com.example.mini_project.service.implementation;
 
+
 import com.example.mini_project.exception.NotFoundExceptionClass;
 import com.example.mini_project.model.Article;
 import com.example.mini_project.model.Bookmark;
@@ -7,7 +8,6 @@ import com.example.mini_project.model.User;
 import com.example.mini_project.model.dto.ArticleDto;
 import com.example.mini_project.model.dto.BookmarkDto;
 import com.example.mini_project.model.request.BookmarkRequest;
-import com.example.mini_project.model.response.ApiResponse;
 import com.example.mini_project.model.response.PageResponse;
 import com.example.mini_project.repository.ArticleRepository;
 import com.example.mini_project.repository.BookmarkRepository;
@@ -27,49 +27,46 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
+
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
-    private final ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
+
     @Override
-    public ApiResponse<ArticleDto> bookmarkOnArticle(BookmarkRequest bookmarkRequest, UUID id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
-        Article article = articleRepository.findById(bookmarkRequest.getArticleId()).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
-        return ApiResponse.<ArticleDto>builder()
-                .message("successful bookmark on article")
-                .payload(bookmarkRepository.save(bookmarkRequest.toEntity(article, user)).getArticle().toDto())
-                .status(HttpStatus.OK)
-                .build();
+    public ArticleDto saveBookmarkArticle(UUID id, BookmarkRequest bookmarkRequest) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("This user is not found!"));
+        Article article = articleRepository.findById(bookmarkRequest.getArticleId()).orElseThrow(() -> new NotFoundExceptionClass("Not found!"));
+        return bookmarkRepository.save(bookmarkRequest.toEntity(article, user)).getArticle().toDto();
+
     }
 
     @Override
-    public ApiResponse<BookmarkDto> removeBookmarkFromArticle(UUID id, UUID articleId) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
-        Article article = articleRepository.findById(articleId).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
-        bookmarkRepository.deleteBookmarkByUserIdAndArticleId(user.getId(), article.getId());
-        return ApiResponse.<BookmarkDto>builder()
-                .message("remove successfully")
-                .payload(null)
-                .status(HttpStatus.OK)
-                .build();
-    }
-
-    @Override
-    public PageResponse<List<ArticleDto>> getBookmarkArticle(UUID id, Integer pageNo, Integer pageSize) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<BookmarkDto> pageResult = bookmarkRepository.findAllByUserId(pageable, user.getId()).map(Bookmark::toDto);
+    public PageResponse<List<ArticleDto>> getBookmarkArticleByUserId(UUID id, Integer page, Integer size) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("This user is not found!"));
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BookmarkDto> pageResult = bookmarkRepository.findAllUserById(pageable, user.getId()).map(Bookmark::toDto);
         List<ArticleDto> articles = new ArrayList<>();
-        for(BookmarkDto bookmarkDto : pageResult){
+        for (BookmarkDto bookmarkDto : pageResult) {
             articles.add(bookmarkDto.getArticle());
         }
         return PageResponse.<List<ArticleDto>>builder()
-                .message("Successfully fetched bookmarks of user: " + user.getId())
+                .message("Get bookmark article successfully")
                 .payload(articles)
                 .status(HttpStatus.OK)
-                .page(pageNo)
-                .size(pageSize)
+                .page(page)
+                .size(size)
                 .totalElement(pageResult.getTotalElements())
                 .totalPages(pageResult.getTotalPages())
                 .build();
     }
+
+    @Override
+    public void deleteBookmark(UUID id, UUID articleId) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("This user's id is not found!"));
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new NotFoundExceptionClass("This article's id is not found"));
+        bookmarkRepository.deleteBookmarkByArticleIdAndUserId(user.getId(), article.getId());
+    }
 }
+
+
+
