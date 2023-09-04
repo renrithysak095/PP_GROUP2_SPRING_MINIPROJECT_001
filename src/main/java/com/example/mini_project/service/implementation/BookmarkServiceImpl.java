@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class BookmarkServiceImp implements BookmarkService {
+public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;

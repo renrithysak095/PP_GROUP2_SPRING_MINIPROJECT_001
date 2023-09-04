@@ -11,14 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class CategoryServiceImp implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     @Override
     public CategoryDto createCategory(CategoryRequest categoryRequest) {

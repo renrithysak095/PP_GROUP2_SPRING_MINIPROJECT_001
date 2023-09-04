@@ -6,7 +6,7 @@ spring:
     url: jdbc:postgresql://database-1.czn8npq5xkyn.ap-southeast-2.rds.amazonaws.com:5432/miniproject
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
