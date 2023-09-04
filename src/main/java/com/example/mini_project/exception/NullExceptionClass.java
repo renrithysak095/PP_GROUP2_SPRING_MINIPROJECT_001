@@ -7,7 +7,6 @@ public class NullExceptionClass extends RuntimeException{
         super(message);
         this.title = title;
     }
-
     public String getTitle() {
         return title;
     }

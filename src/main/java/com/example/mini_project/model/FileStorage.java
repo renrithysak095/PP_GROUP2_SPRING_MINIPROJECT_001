@@ -1,6 +1,5 @@
 package com.example.mini_project.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "files")
-public class File {
+public class FileStorage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
