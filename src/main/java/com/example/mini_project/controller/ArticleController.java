@@ -23,7 +23,7 @@ public class ArticleController {
     }
 
     @GetMapping("")
-    public ResponseEntity<?> getAllArticles(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
+    public ResponseEntity<?> getAllArticles(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
         return ResponseEntity.ok().body(articleService.getAllArticles(pageNo, pageSize));
     }
 
@@ -53,7 +53,7 @@ public class ArticleController {
     }
 
     @GetMapping("isPublished")
-    public ResponseEntity<?> getAllArticlesIsPublished(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
+    public ResponseEntity<?> getAllArticlesIsPublished(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize){
         return ResponseEntity.ok().body(articleService.getAllArticlesIsPublished(pageNo, pageSize));
     }
 }
