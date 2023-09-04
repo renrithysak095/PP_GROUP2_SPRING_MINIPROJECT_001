@@ -12,4 +12,5 @@ public interface CategoryService {
     CategoryDto getCategoryById(UUID id);
     CategoryDto updateCategory(UUID id,CategoryRequest categoryRequest);
     void deleteCategory(UUID id);
+    List<CategoryDto> searchCategoryByName(String name);
 }

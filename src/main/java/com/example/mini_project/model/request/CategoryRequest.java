@@ -3,6 +3,8 @@ package com.example.mini_project.model.request;
 import com.example.mini_project.model.Article;
 import com.example.mini_project.model.Category;
 import com.example.mini_project.model.User;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

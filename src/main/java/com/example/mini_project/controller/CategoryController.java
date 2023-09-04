@@ -1,10 +1,10 @@
 package com.example.mini_project.controller;
-
 import com.example.mini_project.model.dto.CategoryDto;
 import com.example.mini_project.model.request.CategoryRequest;
 import com.example.mini_project.model.response.ApiResponse;
 import com.example.mini_project.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("api/v1/categories")
 @Tag(name = "Categories")
 @AllArgsConstructor
 public class CategoryController {

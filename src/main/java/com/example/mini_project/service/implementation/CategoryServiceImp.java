@@ -1,4 +1,4 @@
-package com.example.mini_project.service.serviceimp;
+package com.example.mini_project.service.implementation;
 import com.example.mini_project.exception.NotFoundExceptionClass;
 import com.example.mini_project.exception.NullExceptionClass;
 import com.example.mini_project.model.Category;
@@ -20,11 +20,9 @@ public class CategoryServiceImp implements CategoryService {
     private final CategoryRepository categoryRepository;
     @Override
     public CategoryDto createCategory(CategoryRequest categoryRequest) {
-        if(categoryRequest.getName().isEmpty()){
-            throw new NullExceptionClass("Category name field required","required");
-        }else if(categoryRequest.getName().length() > 12 || categoryRequest.getName().length()<3){
-            throw new NullExceptionClass("Category name must contain between 3 and 12 letters","");
-        }else{
+        if(categoryRequest.getName().isBlank()){
+            throw new NullExceptionClass("A category name field is required!","category");
+        }else {
             return categoryRepository.save(categoryRequest.toEntity(categoryRequest.getName())).toDto();
         }
     }
@@ -38,18 +36,22 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public CategoryDto getCategoryById(UUID id) {
-        return categoryRepository.findById(id).orElseThrow(()->new NotFoundExceptionClass("Category not found!")).toDto();
+        return categoryRepository.findById(id).orElseThrow(()->new NotFoundExceptionClass("A category with ID: "+id+" not found!")).toDto();
     }
 
     @Override
     public CategoryDto updateCategory(UUID id, CategoryRequest categoryRequest) {
-        Category category = categoryRepository.findById(id).orElseThrow(()->new NotFoundExceptionClass("Category not found!"));
-        return categoryRepository.save(categoryRequest.toEntity(id,category.getName())).toDto();
+        if (categoryRequest.getName().isBlank()) {
+            throw new NullExceptionClass("A category name field is required!","category");
+        }else{
+            Category category = categoryRepository.findById(id).orElseThrow(()->new NotFoundExceptionClass("A category with ID: "+id+" not exist!"));
+            return categoryRepository.save(categoryRequest.toEntity(id,category.getName())).toDto();
+        }
     }
 
     @Override
     public void deleteCategory(UUID id) {
-        Category category = categoryRepository.findById(id).orElseThrow(()-> new NotFoundExceptionClass("Category not found!"));
+        Category category = categoryRepository.findById(id).orElseThrow(()-> new NotFoundExceptionClass("A category with ID: "+id+" not exist!"));
         categoryRepository.deleteById(category.getId());
     }
 
