@@ -11,8 +11,10 @@ import java.util.UUID;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, UUID> {
-    @Transactional
-    void deleteBookmarkByUserIdAndArticleId(UUID id, UUID articleId);
 
-    Page<Bookmark> findAllByUserId(Pageable pageable, UUID id);
+    Page<Bookmark> findAllUserById(Pageable pageable, UUID id);
+
+    @Transactional
+    Void deleteBookmarkByArticleIdAndUserId(UUID id,UUID article_id);
+
 }
