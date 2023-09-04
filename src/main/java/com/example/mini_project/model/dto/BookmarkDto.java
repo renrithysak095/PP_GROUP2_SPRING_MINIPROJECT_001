@@ -1,7 +1,6 @@
 package com.example.mini_project.model.dto;
 
-import com.example.mini_project.model.Article;
-import com.example.mini_project.model.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +13,13 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BookmarkDto {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
-    private Article article;
+    private ArticleDto article;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserDto user;
 
+    public BookmarkDto(ArticleDto article) {
+        this.article = article;
+    }
 }
