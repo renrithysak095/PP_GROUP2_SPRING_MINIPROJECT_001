@@ -15,7 +15,11 @@ import java.util.UUID;
 public class BookmarkDto {
 
     private UUID id;
-    private Article article;
+    private ArticleDto article;
     private UserDto user;
+
+    public BookmarkDto(ArticleDto article) {
+        this.article = article;
+    }
 
 }
