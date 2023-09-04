@@ -10,6 +10,7 @@ import com.example.mini_project.model.dto.CommentDto;
 import com.example.mini_project.model.request.ArticleRequest;
 import com.example.mini_project.model.request.CategoryRequest;
 import com.example.mini_project.model.request.CommentRequest;
+import com.example.mini_project.model.response.ApiResponse;
 import com.example.mini_project.model.response.PageResponse;
 import com.example.mini_project.repository.ArticleRepository;
 import com.example.mini_project.repository.CategoryRepository;
@@ -37,14 +38,18 @@ public class ArticleServiceImp implements ArticleService {
     private final CommentRepository commentRepository;
 
     @Override
-    public ArticleDto createArticle(ArticleRequest articleRequest) {
+    public ApiResponse<ArticleDto> createArticle(ArticleRequest articleRequest) {
         User user = userRepository.findById(articleRequest.getUserId()).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
         List<Category> categories = new ArrayList<>();
         for (CategoryRequest categoryRequest : articleRequest.getCategories()){
             Category category = categoryRepository.findByName(categoryRequest.getName()).orElseThrow(() -> new NotFoundExceptionClass("Category not found"));
             categories.add(category);
         }
-        return articleRepository.save(articleRequest.toEntity(user, categories)).toDto();
+        return ApiResponse.<ArticleDto>builder()
+                .message("successfully create article")
+                .payload(articleRepository.save(articleRequest.toEntity(user, categories)).toDto())
+                .status(HttpStatus.CREATED)
+                .build();
     }
 
     @Override
@@ -63,30 +68,47 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public CommentDto postComment(CommentRequest commentRequest, UUID id) {
+    public ApiResponse<CommentDto> postComment(CommentRequest commentRequest, UUID id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
-        return commentRepository.save(commentRequest.toEntity(article)).toDto();
+        return  ApiResponse.<CommentDto>builder()
+                .message("comment with article id: " + id)
+                .payload(commentRepository.save(commentRequest.toEntity(article)).toDto())
+                .status(HttpStatus.CREATED)
+                .build();
     }
 
     @Override
-    public List<CommentDto> getAllCommentsInArticle(UUID id) {
+    public ApiResponse<List<CommentDto>> getAllCommentsInArticle(UUID id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
-        return commentRepository.findAllByArticleId(article.getId()).stream().map(Comment::toDto).collect(Collectors.toList());
+        return ApiResponse.<List<CommentDto>>builder()
+                .message("success fetch comment by article id: " + id)
+                .payload(commentRepository.findAllByArticleId(article.getId()).stream().map(Comment::toDto).collect(Collectors.toList()))
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @Override
-    public ArticleDto getArticle(UUID id) {
-        return articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found")).toDto();
+    public ApiResponse<ArticleDto> getArticle(UUID id) {
+        return  ApiResponse.<ArticleDto>builder()
+                .message("comment with article id: " + id)
+                .payload(articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found")).toDto())
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @Override
-    public void deleteArticle(UUID id) {
+    public ApiResponse<ArticleDto> deleteArticle(UUID id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
         articleRepository.deleteById(article.getId());
+        return ApiResponse.<ArticleDto>builder()
+                .message("deleted successfully")
+                .payload(null)
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @Override
-    public ArticleDto updateArticle(ArticleRequest articleRequest, UUID id) {
+    public ApiResponse<ArticleDto> updateArticle(ArticleRequest articleRequest, UUID id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new NotFoundExceptionClass("Article not found"));
         User user = userRepository.findById(articleRequest.getUserId()).orElseThrow(() -> new NotFoundExceptionClass("User not found"));
         List<Category> categories = new ArrayList<>();
@@ -94,7 +116,11 @@ public class ArticleServiceImp implements ArticleService {
             Category category = categoryRepository.findByName(categoryRequest.getName()).orElseThrow(() -> new NotFoundExceptionClass("Category not found"));
             categories.add(category);
         }
-        return articleRepository.save(articleRequest.toEntity(article.getId(), user, categories)).toDto();
+        return  ApiResponse.<ArticleDto>builder()
+                .message("successfully update article")
+                .payload(articleRepository.save(articleRequest.toEntity(article.getId(), user, categories)).toDto())
+                .status(HttpStatus.OK)
+                .build();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.mini_project.model;
 
-import com.example.mini_project.enumeration.Role;
 import com.example.mini_project.model.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
